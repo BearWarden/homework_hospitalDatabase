@@ -1,0 +1,28 @@
+<?php
+  require_once("dbtools.inc.php");
+	header("Content-type: text/html; charset=utf-8");
+	//取得表单资料
+	$name=$_POST['name'];
+	$sex=$_POST['sex'];
+	$id=$_POST['ID'];//获取病人身份证号
+	$medid=$_POST['med_id'];
+	$year=$_POST['old'];
+	
+	//建立数据库连接
+	$link = create_connection();
+	//执行select语句
+	$sql = "SELECT * FROM pat_doc WHERE id ='$id'";
+	$result=execute_sql($link,"hospital",$sql);
+	mysqli_free_result($result);
+	$sql="UPDATE medicine SET number = number-1 WHERE med_ID = '$medid' ";
+	
+	$result=execute_sql($link,"hospital",$sql);
+	echo "<script type='text/javascript'>alert('购药成功，撤销预约');location.href='operationinput.php';</script>";
+	$sql="DELETE FROM history WHERE history.pat_id = '$id'";
+	$result=execute_sql($link,"hospital",$sql);
+	
+	
+	header("location:result.php");
+	mysqli_close($link);
+	
+?>

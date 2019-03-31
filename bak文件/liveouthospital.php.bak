@@ -1,0 +1,24 @@
+<?php
+  require_once("dbtools.inc.php");
+	header("Content-type: text/html; charset=utf-8");
+	
+	//取得表单资料
+	$id=$_POST['ID'];
+	$roomNum=$_POST['roomnum'];
+	$bedNum = $_POST['bednum'];
+	//建立数据库连接
+	
+	$link = create_connection();
+	//执行select语句
+	
+	$sql = "DELETE FROM livehospital WHERE livehospital.pat_id = '$id'";
+	$result = execute_sql($link,"hospital", $sql);
+	
+  $sql="DELETE FROM history WHERE history.pat_id = '$id'";
+	$result=execute_sql($link,"hospital",$sql);
+	
+  echo "<script type='text/javascript'>alert('您已退房');location.href='getNum.php';</script>";
+  
+	mysqli_close($link);
+	
+?>
